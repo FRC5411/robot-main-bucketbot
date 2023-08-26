@@ -10,27 +10,27 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.systems.arm.ArmCommand;
 import frc.robot.systems.arm.ArmSubsystem;
-import frc.robot.systems.drive.DriveCommand;
-import frc.robot.systems.drive.DriveSubsystem;
+// import frc.robot.systems.drive.DriveCommand;
+// import frc.robot.systems.drive.DriveSubsystem;
 
 public class RobotContainer {
-  private DriveSubsystem robotDrive; 
+  //private DriveSubsystem robotDrive; 
   private CommandXboxController driveController;
   private CommandXboxController operatorController;
   private ArmSubsystem robotArm;
 
 
   public RobotContainer() {
-    robotDrive = new DriveSubsystem();
+    //robotDrive = new DriveSubsystem();
     robotArm = new ArmSubsystem();
     driveController = new CommandXboxController(0);
     operatorController = new CommandXboxController(1);
 
-    robotDrive.setDefaultCommand(
-      new DriveCommand(
-        () -> driveController.getLeftY(), 
-        () -> driveController.getRightX(), 
-        robotDrive));
+    //robotDrive.setDefaultCommand(
+      // new DriveCommand(
+      //   () -> driveController.getLeftY(), 
+      //   () -> driveController.getRightX(), 
+      //   robotDrive));
 
     configureBindings();
   }
