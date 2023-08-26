@@ -4,12 +4,14 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.systems.arm.ArmCommand;
 import frc.robot.systems.arm.ArmSubsystem;
 import frc.robot.systems.drive.DriveCommand;
+import frc.robot.systems.drive.DriveForTimeCommand;
 import frc.robot.systems.drive.DriveSubsystem;
 
 public class RobotContainer {
@@ -17,6 +19,7 @@ public class RobotContainer {
   private CommandXboxController driveController;
   private CommandXboxController operatorController;
   private ArmSubsystem robotArm;
+  private SendableChooser<Command> autoCommandChooser;
 
 
   public RobotContainer() {
@@ -24,12 +27,16 @@ public class RobotContainer {
     robotArm = new ArmSubsystem();
     driveController = new CommandXboxController(0);
     operatorController = new CommandXboxController(1);
+    autoCommandChooser = new SendableChooser<Command>();
 
     robotDrive.setDefaultCommand(
       new DriveCommand(
         () -> driveController.getLeftY(), 
         () -> driveController.getRightX(), 
         robotDrive));
+
+      autoCommandChooser.setDefaultOption("Mobility", mobilityAuton());
+      autoCommandChooser.addOption("One Piece Mobility", onePieceMobilityAuton());
 
     configureBindings();
   }
@@ -50,6 +57,17 @@ public class RobotContainer {
       new ArmCommand(robotArm, "launchForward", 5, 2.5),
       new ArmCommand(robotArm, "launchReturn", 10, 5)
     );
+  }
+
+  public Command onePieceMobilityAuton(){
+    return new SequentialCommandGroup(
+      new ArmCommand(robotArm, "launchForward", 7.5, 5),
+      new DriveForTimeCommand(3, -1, robotDrive)
+    );
+  }
+
+  public Command mobilityAuton(){
+      return new DriveForTimeCommand(3, -1, robotDrive);
   }
 
   public Command getAutonomousCommand() {
