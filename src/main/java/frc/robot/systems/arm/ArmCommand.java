@@ -6,66 +6,55 @@ package frc.robot.systems.arm;
 
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.ProfiledPIDCommand;
-import frc.robot.Constants;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 
+public class ArmCommand extends CommandBase {
+  double setPointAngle;
+  ArmSubsystem robotArm;
+  ProfiledPIDController armPID;
 
-// NOTE:  Consider using this command inline, rather than writing a subclass.  For more
-// information, see:
-// https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class ArmCommand extends ProfiledPIDCommand {
-  /** Creates a new ArmCommand. */
-  public ArmCommand(ArmSubsystem m_arm, String position, double vel, double acc) {
-    super(
-        // The ProfiledPIDController used by the command
-        new ProfiledPIDController(
-            // The PID gains
-            0.1,
-            0,
-            0,
-            // The motion profile constraints
-            new TrapezoidProfile.Constraints(vel, acc)),
-        // This should return the measurement
-        () -> m_arm.getEncoderPosition(),
-        // This should return the goal (can also be a constant)
-        () -> convertStringToDouble(position),
-        // This uses the output
-        (output, setpoint) -> {
-          // Use the output (and setpoint, if desired) here
-          SmartDashboard.putNumber("Encoder Output", output);
+  public ArmCommand(double targetSetpoint, ArmSubsystem robotArmSS) {
+    setPointAngle = targetSetpoint;
+    robotArm = robotArmSS;
+    addRequirements(robotArm);
+  }
+  
+  // Called when the command is initially scheduled.
+  @Override
+  public void initialize() {
+    double kP = 0.03;
+    double kI = 0;
+    double kD = 0;
+    
+    double armVelocity = 0;
+    double armAcceleration = 0;
+    
+    armPID = new ProfiledPIDController(kP, kI, kD, 
+    new TrapezoidProfile.Constraints(armVelocity, armAcceleration)
+    );
+    armPID.reset(robotArm.getEncoderPosition());
+    armPID.setTolerance(2);
 
-          m_arm.setArmSpeed(output);
-        });
-    // Use addRequirements() here to declare subsystem dependencies.
-    // Configure additional PID options by calling `getController` here.
-          addRequirements(m_arm);
-          getController().setTolerance(2.5);
+    System.out.println("Command ARM COMMAND has started");
   }
 
-  public static double convertStringToDouble(String pos){
-    if(pos.equals("launchForward")){
+  // Called every time the scheduler runs while the command is scheduled.
+  @Override
+  public void execute() {
+    double calc = armPID.calculate(robotArm.getEncoderPosition(), setPointAngle);
+    robotArm.setArmSpeed(calc);
+  }
 
-      return Constants.Arm.k_launchForward;
-
-    } else if(pos.equals("launchReturn")){
-
-      return Constants.Arm.k_launchReturn;
-
-    } else if(pos.equals("idle")){
-      
-      return Constants.Arm.k_idle;
-
-    } else{
-
-      return Constants.Arm.k_idle;
-
-    }
+  // Called once the command ends or is interrupted.
+  @Override
+  public void end(boolean interrupted) {
+    robotArm.setArmSpeed(0);
+    System.out.println("Command TELEOP ARM ALIGN has ended");
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return getController().atGoal();
+    return false;
   }
 }

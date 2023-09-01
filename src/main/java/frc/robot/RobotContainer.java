@@ -26,18 +26,18 @@ public class RobotContainer {
   public RobotContainer() {
     robotDrive = new DriveSubsystem();
     robotArm = new ArmSubsystem();
-    driveController = new CommandXboxController(0);
+    driveController = new CommandXboxController(1);
     operatorController = new CommandXboxController(1);
     autoCommandChooser = new SendableChooser<Command>();
 
     robotDrive.setDefaultCommand(
       new DriveCommand(
-        () -> driveController.getLeftY(), 
+        () -> -driveController.getLeftY(), 
         () -> driveController.getRightX(), 
         robotDrive));
 
-      autoCommandChooser.setDefaultOption("Mobility", mobilityAuton());
-      autoCommandChooser.addOption("One Piece Mobility", onePieceMobilityAuton());
+      // autoCommandChooser.setDefaultOption("Mobility", mobilityAuton());
+      // autoCommandChooser.addOption("One Piece Mobility", onePieceMobilityAuton());
 
     configureBindings();
   }
@@ -59,20 +59,18 @@ public class RobotContainer {
     // operatorController.y().onFalse(new ArmCommand(robotArm, "idle", 0, 0));
 
     // operatorController.a().onTrue(new ArmCommand(robotArm, "idle", 5, 2.5));
+    operatorController.a()
+      .onTrue(setArmSetpoint(60))
+      .onFalse(new InstantCommand(() -> robotArm.setArmSpeed(0)));
+
+
+    operatorController.b()
+      .onTrue(setArmSetpoint(5))
+      .onFalse(new InstantCommand(() -> robotArm.setArmSpeed(0)));
   }
 
-  public Command executeLaunch(){
-    return new SequentialCommandGroup(
-      new ArmCommand(robotArm, "launchForward", 5, 2.5),
-      new ArmCommand(robotArm, "launchReturn", 10, 5)
-    );
-  }
-
-  public Command onePieceMobilityAuton(){
-    return new SequentialCommandGroup(
-      new ArmCommand(robotArm, "launchForward", 7.5, 5),
-      new DriveForTimeCommand(3, -1, robotDrive)
-    );
+  private Command setArmSetpoint(double setpoint){
+    return new ArmCommand(setpoint, robotArm);
   }
 
   public Command mobilityAuton(){
