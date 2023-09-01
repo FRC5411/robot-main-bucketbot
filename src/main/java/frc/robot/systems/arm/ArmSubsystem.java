@@ -23,7 +23,7 @@ public class ArmSubsystem extends SubsystemBase {
     m_arm.setIdleMode(IdleMode.kBrake);
     m_arm.setInverted(false);
 
-    m_arm.setSmartCurrentLimit(40);
+    m_arm.setSmartCurrentLimit(60);
   }
 
   public void setArmSpeed(double speed){
