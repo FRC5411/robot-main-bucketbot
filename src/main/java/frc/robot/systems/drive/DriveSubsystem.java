@@ -3,6 +3,8 @@ package frc.robot.systems.drive;
 
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
+
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 public class DriveSubsystem extends SubsystemBase {
@@ -12,12 +14,12 @@ public class DriveSubsystem extends SubsystemBase {
   private WPI_TalonSRX m_backLeft;
 
   private DifferentialDrive m_drive;
-
+ 
   public DriveSubsystem() {
-    m_frontLeft = new WPI_TalonSRX(0);
-    m_frontRight = new WPI_TalonSRX(1);
-    m_backLeft = new WPI_TalonSRX(2);
-    m_backRight = new WPI_TalonSRX(3);
+    m_frontLeft = new WPI_TalonSRX(13);
+    m_frontRight = new WPI_TalonSRX(14);
+    m_backLeft = new WPI_TalonSRX(11);
+    m_backRight = new WPI_TalonSRX(12);
 
     m_backLeft.follow(m_frontLeft);
     m_backRight.follow(m_frontRight);
@@ -41,7 +43,7 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public void arcadeCmd(double speed, double rotation) {
-    m_drive.arcadeDrive(speed, rotation);
+    m_drive.arcadeDrive(speed, rotation + Constants.DriveBase.k_rotationOffset);
   }
 
  

@@ -6,6 +6,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.systems.arm.ArmCommand;
@@ -46,10 +47,18 @@ public class RobotContainer {
     
 
     // Arm Bindings
-    operatorController.y().whileTrue(executeLaunch());
-    operatorController.y().onFalse(new ArmCommand(robotArm, "idle", 0, 0));
+     operatorController.rightTrigger()
+      .whileTrue(new InstantCommand(() -> robotArm.setArmSpeed(0.25)))
+      .onFalse(new InstantCommand(() -> robotArm.setArmSpeed(0)));
 
-    operatorController.a().onTrue(new ArmCommand(robotArm, "idle", 5, 2.5));
+      operatorController.leftTrigger()
+      .whileTrue(new InstantCommand(() -> robotArm.setArmSpeed(-0.25)))
+      .onFalse(new InstantCommand(() -> robotArm.setArmSpeed(0)));
+
+    // operatorController.y().whileTrue(executeLaunch());
+    // operatorController.y().onFalse(new ArmCommand(robotArm, "idle", 0, 0));
+
+    // operatorController.a().onTrue(new ArmCommand(robotArm, "idle", 5, 2.5));
   }
 
   public Command executeLaunch(){

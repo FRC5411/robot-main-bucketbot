@@ -2,7 +2,7 @@ package frc.robot;
 
 public class Constants {
     public static class DriveBase{
-
+        public static final double k_rotationOffset = 0.1;
     }
 
     public static class Arm{
