@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -17,7 +19,7 @@ public class RobotContainer {
   private CommandXboxController operatorController;
   private ArmSubsystem robotArm;
   private AutonManager autonManager;
-
+  private SendableChooser<Command> autonChooser;
 
   public RobotContainer() {
     robotDrive = new DriveSubsystem();
@@ -33,8 +35,13 @@ public class RobotContainer {
         () -> driveController.getRightX(), 
         robotDrive));
 
-      // autoCommandChooser.setDefaultOption("Mobility", mobilityAuton());
-      // autoCommandChooser.addOption("One Piece Mobility", onePieceMobilityAuton());
+      autonChooser = new SendableChooser<>();
+        
+    Shuffleboard.getTab("Autonomous: ").add(autonChooser);
+    autonChooser.addOption("SHOOT MOBILITY, CABLE SIDE", autonManager.autonomousCmd(1));
+    autonChooser.addOption("SHOOT MOBILITY DOCK", autonManager.autonomousCmd(2));
+    autonChooser.addOption("SHOOT MOBILITY, NO CABLE", autonManager.autonomousCmd(3));
+    autonChooser.setDefaultOption("SHOOT", autonManager.autonomousCmd(4));
 
     configureBindings();
   }
@@ -56,6 +63,6 @@ public class RobotContainer {
   
 
   public Command getAutonomousCommand() {
-    return autonManager.autonomousCmd(3);
+    return autonChooser.getSelected();
   }
 }

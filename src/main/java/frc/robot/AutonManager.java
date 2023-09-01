@@ -31,7 +31,7 @@ public class AutonManager {
                 new InstantCommand(() -> robotArm.setArmSpeed(0)),
 
                 // DRIVE BACK
-                driveBack(1.2)
+                driveBack(1.3)
               );
 
             // ------ MID AUTON ------
@@ -45,8 +45,8 @@ public class AutonManager {
                 new InstantCommand(() -> robotArm.setArmSpeed(0)),
 
                 // DRIVE BACK THEN FRONT
-                driveBack(1),
-                driveFront(0.1)
+                driveBack(1.5),
+                driveFront(1)
               );
 
             // ------ NON-CABLE SIDE AUTON ------
@@ -61,6 +61,17 @@ public class AutonManager {
 
                 // Drive backward
                 driveBack(1)
+              );
+
+            // ------ JUST SHOOT ------
+            case 4:
+              return new SequentialCommandGroup (
+                // ARM CATAPULT 
+                new InstantCommand(() -> robotArm.setArmSpeed(0.75)),
+                new WaitCommand(0.48),        
+                new InstantCommand(() -> robotArm.setArmSpeed(-0.75)),
+                new WaitCommand(0.48),
+                new InstantCommand(() -> robotArm.setArmSpeed(0))
               );
 
             default: 
