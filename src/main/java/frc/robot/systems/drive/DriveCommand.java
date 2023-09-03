@@ -29,6 +29,12 @@ public class DriveCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    double speedDouble = m_speed.getAsDouble();
+    double rotationDouble = m_rotation.getAsDouble();
+    
+    if(Math.abs(speedDouble) < 0.1) speedDouble = 0;
+    if(Math.abs(rotationDouble) < 0.1) rotationDouble = 0;
+
     m_drive.arcadeCmd(m_speed.getAsDouble() , m_rotation.getAsDouble() * 0.8);
   }
 
