@@ -18,11 +18,12 @@ public class ArmSubsystem extends SubsystemBase {
   private CANSparkMax m_arm;
   private double m_gearRatio = 12.0;
   private static double armSpeed;
+  
   public ArmSubsystem() {
     m_arm = new CANSparkMax(Constants.Arm.k_armID, MotorType.kBrushless);
     m_arm.setIdleMode(IdleMode.kBrake);
     m_arm.setInverted(false);
-
+    m_arm.getEncoder().setVelocityConversionFactor(1/42/25);
     m_arm.setSmartCurrentLimit(60);
   }
 
@@ -39,8 +40,8 @@ public class ArmSubsystem extends SubsystemBase {
   public void limitArmSpeed() {
     double bicepEncoderPos = getEncoderPosition();
     if (
-      (bicepEncoderPos > 85 && armSpeed > 0) || 
-      (bicepEncoderPos < 3 && armSpeed < 0)
+      (bicepEncoderPos > 70 && armSpeed > 0) || 
+      (bicepEncoderPos < 50 && armSpeed < 0)
     ) { setArmSpeed(0); }
   }
 
@@ -49,7 +50,8 @@ public class ArmSubsystem extends SubsystemBase {
     limitArmSpeed();
 
     // This method will be called once per scheduler run
-
+    
     SmartDashboard.putNumber("Encoder Value", getEncoderPosition());
+    SmartDashboard.putNumber("arm velocity", m_arm.getEncoder().getVelocity());
   }
 }

@@ -46,7 +46,7 @@ public class DriveSubsystem extends SubsystemBase {
     double rotationOffset = Constants.DriveBase.k_rotationOffset;
     if(speed == 0) {rotationOffset = 0;} 
     else if (speed > 0) { rotationOffset = Constants.DriveBase.k_rotationOffset; }
-    else {rotationOffset = -Constants.DriveBase.k_rotationOffset;}
+    else {rotationOffset = 0;}
     m_drive.arcadeDrive(speed, rotation + rotationOffset);
   }
 
