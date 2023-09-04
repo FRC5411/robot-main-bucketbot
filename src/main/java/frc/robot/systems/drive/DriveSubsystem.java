@@ -2,8 +2,9 @@ package frc.robot.systems.drive;
 
 
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
+// import frc.robot.Constants;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
@@ -13,6 +14,9 @@ public class DriveSubsystem extends SubsystemBase {
   private WPI_TalonSRX m_backRight;
   private WPI_TalonSRX m_backLeft;
 
+  private MotorControllerGroup leftMotors;
+  private MotorControllerGroup rightMotors;
+
   private DifferentialDrive m_drive;
  
   public DriveSubsystem() {
@@ -21,14 +25,22 @@ public class DriveSubsystem extends SubsystemBase {
     m_backLeft = new WPI_TalonSRX(11);
     m_backRight = new WPI_TalonSRX(12);
 
-    m_backLeft.follow(m_frontLeft);
-    m_backRight.follow(m_frontRight);
+    leftMotors = new MotorControllerGroup(m_frontLeft, m_backLeft);
+    rightMotors = new MotorControllerGroup(m_frontRight, m_backRight);
 
     m_backLeft.setInverted(true);
     m_frontLeft.setInverted(true);
     
+    configMotor(m_backLeft);
+    configMotor(m_backRight);
+    configMotor(m_frontLeft);
+    configMotor(m_frontRight);
+    m_drive = new DifferentialDrive(leftMotors, rightMotors);
+  }
 
-    m_drive = new DifferentialDrive(m_frontLeft, m_frontRight);
+  private void configMotor(WPI_TalonSRX motor){
+    motor.configPeakCurrentLimit(40);
+    motor.configPeakCurrentDuration(10000);
   }
 
 
@@ -46,7 +58,7 @@ public class DriveSubsystem extends SubsystemBase {
     double rotationOffset = Constants.DriveBase.k_rotationOffset;
     if(speed == 0) {rotationOffset = 0;} 
     else if (speed > 0) { rotationOffset = Constants.DriveBase.k_rotationOffset; }
-    else {rotationOffset = 0;}
+    else {rotationOffset = -Constants.DriveBase.k_rotationOffset;}
     m_drive.arcadeDrive(speed, rotation + rotationOffset);
   }
 
