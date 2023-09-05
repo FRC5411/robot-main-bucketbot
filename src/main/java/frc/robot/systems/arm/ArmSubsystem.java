@@ -16,7 +16,7 @@ public class ArmSubsystem extends SubsystemBase {
   /** Creates a new ArmSubsytem. */
 
   private CANSparkMax m_arm;
-  private double m_gearRatio = 12.0;
+  private double m_gearRatio = 25.0;
   private static double armSpeed;
   
   public ArmSubsystem() {
