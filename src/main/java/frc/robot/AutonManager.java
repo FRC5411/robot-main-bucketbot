@@ -24,53 +24,53 @@ public class AutonManager {
             case 1:
               return new SequentialCommandGroup (
                 // ARM CATAPULT 
-                new InstantCommand(() -> robotArm.setArmSpeed(0.75)),
-                new WaitCommand(0.5),        
-                new InstantCommand(() -> robotArm.setArmSpeed(-0.75)),
-                new WaitCommand(0.5),
+                new InstantCommand(() -> robotArm.setArmSpeed(0.27)),
+                new WaitCommand(0.38),        
+                new InstantCommand(() -> robotArm.setArmSpeed(-0.27)),
+                new WaitCommand(0.38),
                 new InstantCommand(() -> robotArm.setArmSpeed(0)),
 
                 // DRIVE BACK
-                driveBack(1.3)
+                driveBack(1.4)
               );
 
             // ------ MID AUTON ------
             case 2:
               return new SequentialCommandGroup (
                 // ARM CATAPULT 
-                new InstantCommand(() -> robotArm.setArmSpeed(0.75)),
-                new WaitCommand(0.5),        
-                new InstantCommand(() -> robotArm.setArmSpeed(-0.75)),
-                new WaitCommand(0.5),
+                new InstantCommand(() -> robotArm.setArmSpeed(0.27)),
+                new WaitCommand(0.38),        
+                new InstantCommand(() -> robotArm.setArmSpeed(-0.27)),
+                new WaitCommand(0.38),
                 new InstantCommand(() -> robotArm.setArmSpeed(0)),
 
                 // DRIVE BACK THEN FRONT
-                driveBack(1.5),
-                driveFront(1)
+                driveBack(1.6),
+                driveFront(1.1)
               );
 
             // ------ NON-CABLE SIDE AUTON ------
             case 3:
               return new SequentialCommandGroup (
                 // ARM CATAPULT 
-                new InstantCommand(() -> robotArm.setArmSpeed(0.75)),
-                new WaitCommand(0.48),        
-                new InstantCommand(() -> robotArm.setArmSpeed(-0.75)),
-                new WaitCommand(0.48),
+                new InstantCommand(() -> robotArm.setArmSpeed(0.27)),
+                new WaitCommand(0.38),        
+                new InstantCommand(() -> robotArm.setArmSpeed(-0.27)),
+                new WaitCommand(0.38),
                 new InstantCommand(() -> robotArm.setArmSpeed(0)),
 
                 // Drive backward
-                driveBack(1)
+                driveBack(1.1)
               );
 
             // ------ JUST SHOOT ------
             case 4:
               return new SequentialCommandGroup (
                 // ARM CATAPULT 
-                new InstantCommand(() -> robotArm.setArmSpeed(0.75)),
-                new WaitCommand(0.48),        
-                new InstantCommand(() -> robotArm.setArmSpeed(-0.75)),
-                new WaitCommand(0.48),
+                new InstantCommand(() -> robotArm.setArmSpeed(0.27)),
+                new WaitCommand(0.38),        
+                new InstantCommand(() -> robotArm.setArmSpeed(-0.27)),
+                new WaitCommand(0.38),
                 new InstantCommand(() -> robotArm.setArmSpeed(0))
               );
 
@@ -88,7 +88,7 @@ public class AutonManager {
   }
 
   private Command driveFront(double time){
-      return new DriveCommand(() -> 1, () -> 0.0, robotDrive).withTimeout(time);
+      return new DriveCommand(() -> 0.5, () -> 0.0, robotDrive).withTimeout(time);
   }
 
 }
