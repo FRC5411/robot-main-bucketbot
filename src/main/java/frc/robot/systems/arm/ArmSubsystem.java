@@ -40,9 +40,9 @@ public class ArmSubsystem extends SubsystemBase {
   public void limitArmSpeed() {
     double bicepEncoderPos = getEncoderPosition();
     if (
-      (bicepEncoderPos > 70 && armSpeed > 0) || 
+      (bicepEncoderPos > 60 && armSpeed > 0) || 
       (bicepEncoderPos < 50 && armSpeed < 0)
-    ) { setArmSpeed(0); }
+    ) { setArmSpeed(0); System.out.println("ENCODER LIMITS IN EFFECT!!!");}
   }
 
   @Override
