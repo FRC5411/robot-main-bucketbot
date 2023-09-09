@@ -27,7 +27,7 @@ public class AutonManager {
                 new InstantCommand(() -> robotArm.setArmSpeed(0.75)),
                 new WaitCommand(0.5),        
                 new InstantCommand(() -> robotArm.setArmSpeed(0)),
-
+                new WaitCommand(1.5),
                 // DRIVE BACK
                 driveBack(1.3),
 
@@ -44,7 +44,7 @@ public class AutonManager {
                 new InstantCommand(() -> robotArm.setArmSpeed(0.75)),
                 new WaitCommand(0.5),
                 new InstantCommand(() -> robotArm.setArmSpeed(0)),
-
+                new WaitCommand(1.5),
                 // DRIVE BACK THEN FRONT
                 driveBack(1.5),
                 driveFront(1),
@@ -62,7 +62,7 @@ public class AutonManager {
                 new InstantCommand(() -> robotArm.setArmSpeed(0.75)),
                 new WaitCommand(0.48),
                 new InstantCommand(() -> robotArm.setArmSpeed(0)),
-
+                new WaitCommand(1.5),
                 // Drive backward
                 driveBack(1),
 
