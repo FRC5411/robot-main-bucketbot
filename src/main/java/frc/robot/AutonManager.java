@@ -1,10 +1,10 @@
 package frc.robot;
-
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.systems.arm.ArmSubsystem;
+import frc.robot.systems.drive.BalanceCommand;
 import frc.robot.systems.drive.DriveCommand;
 import frc.robot.systems.drive.DriveSubsystem;
 
@@ -81,6 +81,12 @@ public class AutonManager {
                 new WaitCommand(0.48),
                 new InstantCommand(() -> robotArm.setArmSpeed(0))
               );
+            // ----- Balance test -----
+            case 5:
+              return new SequentialCommandGroup(
+              autoBalanceCmd()
+              
+              );
 
             default: 
             return new SequentialCommandGroup (
@@ -91,12 +97,18 @@ public class AutonManager {
 
 
 
-    private Command driveBack(double time){
+  private Command driveBack(double time){
       return new DriveCommand(() -> -1, () -> 0.0, robotDrive).withTimeout(time);
   }
 
   private Command driveFront(double time){
       return new DriveCommand(() -> 1, () -> 0.0, robotDrive).withTimeout(time);
   }
+
+  public Command autoBalanceCmd(){
+    return new BalanceCommand(robotDrive);
+    
+  }
+
 
 }

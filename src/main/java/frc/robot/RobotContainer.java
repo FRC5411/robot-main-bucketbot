@@ -3,7 +3,6 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot;
-
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -20,8 +19,7 @@ public class RobotContainer {
   private ArmSubsystem robotArm;
   private AutonManager autonManager;
   private SendableChooser<Command> autonChooser;
-
-  public RobotContainer() {
+    public RobotContainer() {
     robotDrive = new DriveSubsystem();
     robotArm = new ArmSubsystem();
     autonManager = new AutonManager(robotDrive, robotArm);
@@ -38,11 +36,12 @@ public class RobotContainer {
       autonChooser = new SendableChooser<>();
         
     Shuffleboard.getTab("Autonomous: ").add(autonChooser);
+    
     autonChooser.addOption("SHOOT MOBILITY, CABLE SIDE", autonManager.autonomousCmd(1));
     autonChooser.addOption("SHOOT MOBILITY DOCK", autonManager.autonomousCmd(2));
     autonChooser.addOption("SHOOT MOBILITY, NO CABLE", autonManager.autonomousCmd(3));
     autonChooser.setDefaultOption("SHOOT", autonManager.autonomousCmd(4));
-
+    autonChooser.addOption("balance test",autonManager.autonomousCmd(5));
     configureBindings();
   }
 
