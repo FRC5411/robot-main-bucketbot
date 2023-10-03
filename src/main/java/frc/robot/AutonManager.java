@@ -28,13 +28,12 @@ public class AutonManager {
                 new WaitCommand(0.5),        
                 new InstantCommand(() -> robotArm.setArmSpeed(0)),
                 new WaitCommand(1.5),
-                // DRIVE BACK
-                driveBack(1.3,1),
-
                 // ARM RETURN
                 new InstantCommand(() -> robotArm.setArmSpeed(-0.75)),
-                new WaitCommand(0.5),
-                new InstantCommand(() -> robotArm.setArmSpeed(0))
+                new WaitCommand(0.75),
+                new InstantCommand(() -> robotArm.setArmSpeed(0)),
+                // DRIVE BACK
+                driveBack(1.3,1)
               );
 
             // ------ MID AUTON ------
@@ -48,7 +47,7 @@ public class AutonManager {
 
                 // ARM RETURN
                 new InstantCommand(() -> robotArm.setArmSpeed(-0.75)),
-                new WaitCommand(0.5),
+                new WaitCommand(0.75),
                 new InstantCommand(() -> robotArm.setArmSpeed(0)),
 
                 //drive back
@@ -66,12 +65,12 @@ public class AutonManager {
                 new WaitCommand(0.48),
                 new InstantCommand(() -> robotArm.setArmSpeed(0)),
                 new WaitCommand(1.5),
-                // Drive backward
-                driveBack(1,1),
-
+                // ARM RETURN
                 new InstantCommand(() -> robotArm.setArmSpeed(-0.75)),
-                new WaitCommand(0.48),
-                new InstantCommand(() -> robotArm.setArmSpeed(0))
+                new WaitCommand(0.75),
+                new InstantCommand(() -> robotArm.setArmSpeed(0)),
+                // Drive backward
+                driveBack(1,1)
               );
 
             // ------ JUST SHOOT ------
@@ -81,7 +80,7 @@ public class AutonManager {
                 new InstantCommand(() -> robotArm.setArmSpeed(0.75)),
                 new WaitCommand(0.48),        
                 new InstantCommand(() -> robotArm.setArmSpeed(-0.75)),
-                new WaitCommand(0.48),
+                new WaitCommand(0.75),
                 new InstantCommand(() -> robotArm.setArmSpeed(0))
               );
             // ----- Balance test -----
