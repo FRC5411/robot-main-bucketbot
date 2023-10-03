@@ -6,15 +6,19 @@ package frc.robot.systems.drive;
 
 import java.util.function.DoubleSupplier;
 
+import com.ctre.phoenix.sensors.WPI_PigeonIMU;
+
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class DriveCommand extends CommandBase {
   /** Creates a new DriveCommand. */
+  WPI_PigeonIMU gyro = new WPI_PigeonIMU(41);
+  private DoubleSupplier pitch = () -> gyro.getPitch();
   private DoubleSupplier m_speed;
   private DoubleSupplier m_rotation;
   private DriveSubsystem m_drive;
   public DriveCommand(DoubleSupplier speed, DoubleSupplier rotation, DriveSubsystem drive) {
-
     m_speed = speed;
     m_rotation = rotation;
     m_drive = drive;
@@ -29,6 +33,7 @@ public class DriveCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    SmartDashboard.putNumber("pitch", pitch.getAsDouble());
     double speedDouble = m_speed.getAsDouble();
     double rotationDouble = m_rotation.getAsDouble();
     

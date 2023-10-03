@@ -4,7 +4,6 @@
 
 package frc.robot.systems.arm;
 
-import com.ctre.phoenix.sensors.WPI_PigeonIMU;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -49,10 +48,7 @@ public class ArmSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     limitArmSpeed();
-
     // This method will be called once per scheduler run
-    
-    SmartDashboard.putNumber("Encoder Value", getEncoderPosition());
     SmartDashboard.putNumber("arm velocity", m_arm.getEncoder().getVelocity());
   }
 }

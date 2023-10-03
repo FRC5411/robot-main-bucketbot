@@ -30,7 +30,7 @@ public class RobotContainer {
     robotDrive.setDefaultCommand(
       new DriveCommand(
         () -> -driveController.getLeftY(), 
-        () -> driveController.getRightX(), 
+        () -> -driveController.getRightX(), 
         robotDrive));
 
       autonChooser = new SendableChooser<>();
