@@ -51,7 +51,7 @@ public class AutonManager {
                 new InstantCommand(() -> robotArm.setArmSpeed(0)),
 
                 //drive back
-                driveBack(3.1,0.7),
+                driveBack(2.9,0.7),
 
                 //balance
                 autoBalanceCmd()                
