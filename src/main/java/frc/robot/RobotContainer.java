@@ -59,8 +59,9 @@ public class RobotContainer {
       .onFalse(new InstantCommand(() -> robotArm.setArmSpeed(0)));
 
     operatorController.leftTrigger()
-      .whileTrue(new InstantCommand(() -> robotArm.setArmSpeed(-0.15)))
+      .whileTrue(new InstantCommand(() -> robotArm.setArmSpeed(-0.4)))// -.15
       .onFalse(new InstantCommand(() -> robotArm.setArmSpeed(0)));
+
 
     operatorController.rightBumper()
       .whileTrue(new InstantCommand(() -> robotIntake.intakeIn()))

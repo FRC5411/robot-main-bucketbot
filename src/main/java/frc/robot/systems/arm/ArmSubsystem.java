@@ -34,7 +34,7 @@ public class ArmSubsystem extends SubsystemBase {
 
 
   public double getEncoderPosition(){
-    return (m_arm.getEncoder().getPosition() * 360.0) / m_gearRatio;
+    return (-m_arm.getEncoder().getPosition() * 360.0) / m_gearRatio;
   }
 
   public void limitArmSpeed() {
@@ -50,5 +50,6 @@ public class ArmSubsystem extends SubsystemBase {
     limitArmSpeed();
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("arm velocity", m_arm.getEncoder().getVelocity());
+    SmartDashboard.putNumber("arm position", getEncoderPosition());
   }
 }
