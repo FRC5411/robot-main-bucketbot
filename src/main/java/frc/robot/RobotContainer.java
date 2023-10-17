@@ -55,7 +55,7 @@ public class RobotContainer {
 
     // Arm Bindings
     operatorController.rightTrigger()
-      .whileTrue(new InstantCommand(() -> robotArm.setArmSpeed(.27)))
+      .whileTrue(new InstantCommand(() -> robotArm.setArmSpeed(.7)))
       .onFalse(new InstantCommand(() -> robotArm.setArmSpeed(0)));
 
     operatorController.leftTrigger()

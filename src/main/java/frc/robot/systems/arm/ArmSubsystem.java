@@ -40,8 +40,8 @@ public class ArmSubsystem extends SubsystemBase {
   public void limitArmSpeed() {
     double bicepEncoderPos = getEncoderPosition();
     if (
-      (bicepEncoderPos > 60 && armSpeed > 0) || 
-      (bicepEncoderPos < 50 && armSpeed < 0)
+      (bicepEncoderPos > 70 && armSpeed < 0) || 
+      (bicepEncoderPos < 10 && armSpeed > 0)
     ) { setArmSpeed(0); System.out.println("ENCODER LIMITS IN EFFECT!!!");}
   }
 
@@ -51,5 +51,7 @@ public class ArmSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("arm velocity", m_arm.getEncoder().getVelocity());
     SmartDashboard.putNumber("arm position", getEncoderPosition());
+    SmartDashboard.putNumber("current", m_arm.getOutputCurrent());
+    SmartDashboard.putNumber("voltage", m_arm.getAppliedOutput());
   }
 }
