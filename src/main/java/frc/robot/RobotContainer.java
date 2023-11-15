@@ -8,6 +8,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.Constants.ArmConstants;
+import frc.robot.systems.arm.ArmCommand;
 import frc.robot.systems.arm.ArmSubsystem;
 import frc.robot.systems.drive.DriveCommand;
 import frc.robot.systems.drive.DriveSubsystem;
@@ -19,9 +22,13 @@ public class RobotContainer {
   private ArmSubsystem robotArm;
   private AutonManager autonManager;
   private SendableChooser<Command> autonChooser;
+  private ArmCommand armCommand;
+  private double setpoint;
+
     public RobotContainer() {
     robotDrive = new DriveSubsystem();
-    robotArm = new ArmSubsystem();
+    robotArm = new ArmSubsystem(setpoint);
+    armCommand = new ArmCommand(robotArm, setpoint);
     autonManager = new AutonManager(robotDrive, robotArm);
     driveController = new CommandXboxController(0);
     operatorController = new CommandXboxController(1);
@@ -32,6 +39,12 @@ public class RobotContainer {
         () -> -driveController.getLeftY(), 
         () -> -driveController.getRightX(), 
         robotDrive));
+
+    robotArm.setDefaultCommand(
+      new ArmCommand(
+        robotArm, 
+        setpoint)
+    );
 
       autonChooser = new SendableChooser<>();
         
@@ -57,7 +70,24 @@ public class RobotContainer {
       operatorController.leftTrigger()
       .whileTrue(new InstantCommand(() -> robotArm.setArmSpeed(-0.15)))
       .onFalse(new InstantCommand(() -> robotArm.setArmSpeed(0)));
+
+    buttonClicked(operatorController.a(), armCommand.goToSetpoint(ArmConstants.idleSetpoint));
+    buttonClicked(operatorController.b(), armCommand.goToSetpoint(ArmConstants.pickupSetpoint));
+
+    
+      
   }
+
+  public void buttonClicked(Trigger button, Command command) {
+    button.onTrue(command);
+    if (button == operatorController.a()) {
+      setpoint = ArmConstants.idleSetpoint;
+    }
+    else if (button == operatorController.b()) {
+      setpoint = ArmConstants.pickupSetpoint;
+    }
+  }
+
 
   
 
